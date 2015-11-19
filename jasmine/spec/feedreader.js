@@ -82,10 +82,8 @@ $(function() {
     describe('Initial Entries', function() {
         
         beforeEach(function(done) {
-            //console.log('loadFeed(' + i +')'); // DEBUG
             loadFeed(0, function() {
                 done();
-                //console.log('done number ' + i); // DEBUG
             });
         });
 
@@ -95,20 +93,85 @@ $(function() {
          * Remember, loadFeed() is asynchronous so this test wil require
          * the use of Jasmine's beforeEach and asynchronous done() function.
          */
-        it('have at least a single ".entry" element', function(done) {
-          //console.log(i); // DEBUG
-            //for (i = 0, j = allFeeds.length; i < j; i++) {
+        it('has at least a single ".entry" element', function(done) {
+            expect($('.feed').children().children()).toHaveClass('entry');
+            done();
+        });
+    });
+        
+    /* This function accepts a feed index as a parameter,
+     * loads that feed, then tests to make sure that it populates
+     * the DOM with an entry.
+     */
+    function testFeedsForEntries(feedIndex) {
+        describe('Feed in position ' + feedIndex, function() {
+            beforeEach(function(done) {
+                loadFeed(feedIndex, function() {
+                    done();
+                });
+            });
+            
+            /* TODO: Write a test that ensures when the loadFeed
+             * function is called and completes its work, there is at least
+             * a single .entry element within the .feed container.
+             */
+            it('should have at least a single ".entry" element',
+                function(done) {
                 expect($('.feed').children().children()).toHaveClass('entry');
                 done();
-                //console.log('spec ' + i + ' is being tested'); // DEBUG
-            //}
+            });
         });
+    }
+    
+    /* Test all of the feeds to make sure each one has entries. */
+    for (i = 0, j = allFeeds.length; i < j; i++) {
+        testFeedsForEntries(i);
+    }
 
-    /* TODO: Write a new test suite named "New Feed Selection"
+    /* TODO: Write a new test suite named "New Feed Selection" */
+    describe('New Feed Selection', function() {
 
-        /* TODO: Write a test that ensures when a new feed is loaded
-         * by the loadFeed function that the content actually changes.
-         * Remember, loadFeed() is asynchronous.
+        var oldContent,
+            newContent;
+        
+        /* This function accepts parameters for the index of the
+         * old feed and the index of the new feed. It will set the
+         * oldContent variable to the old feed content, then set the
+         * newContent variable to the new feed content. The spec then
+         * checks to make sure oldContent does not equal newContent
          */
+        function testFeedsForChanges(oldFeed, newFeed) {
+            describe('Changing from feed ' + oldFeed + ' to feed ' + newFeed,
+                function() {
+                beforeEach(function(done) {
+                    loadFeed(oldFeed, function() {
+                        oldContent = $('.header-title').html();
+                        loadFeed(newFeed, function() {
+                            newContent = $('.header-title').html();
+                            done();
+                        });
+                    });
+                });
+                
+                /* TODO: Write a test that ensures when a new feed is loaded
+                 * by the loadFeed function that the content actually changes.
+                 * Remember, loadFeed() is asynchronous.
+                 */
+                it('should show a change in content', function(done) {
+                    expect(newContent).not.toBe(oldContent);
+                    done();
+                });
+            });
+        }
+        
+        /* Test changing from one feed to the next */
+        for (i = 0, j = allFeeds.length - 1; i < j; i++) {
+            testFeedsForChanges(i, i + 1);
+        }
+        
+        /* Make sure that changing from the last feed to the first
+         * feed is also successful
+         */
+        testFeedsForChanges(allFeeds.length - 1, 0);
     });
 }());

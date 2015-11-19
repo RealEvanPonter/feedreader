@@ -1,4 +1,20 @@
-# Project Overview
+# Feed Reader Testing
+
+To run the app, first download all source files. Open index.html to
+see all of the test results.
+
+Tests include verifying that:
+RSS feeds are defined
+RSS feeds have a URL
+RSS feeds have a name
+the menu is hidden by default
+the menu changes visibility when clicked
+the initial entry has an entry element
+each entry has an entry element
+changing from feed to feed shows different content
+
+
+## Project Overview
 
 In this project you are given a web-based application that reads RSS feeds. The original developer of this application clearly saw the value in testing, they've already included [Jasmine](http://jasmine.github.io/) and even started writing their first test suite! Unfortunately, they decided to move on to start their own company and we're now left with an application with an incomplete test suite. That's where you come in.
 
