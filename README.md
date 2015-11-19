@@ -4,13 +4,21 @@ To run the app, first download all source files. Open index.html to
 see all of the test results.
 
 Tests include verifying that:
+
 RSS feeds are defined
+
 RSS feeds have a URL
+
 RSS feeds have a name
+
 the menu is hidden by default
+
 the menu changes visibility when clicked
+
 the initial entry has an entry element
+
 each entry has an entry element
+
 changing from feed to feed shows different content
 
 
